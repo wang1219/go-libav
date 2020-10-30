@@ -37,7 +37,7 @@ import (
 	"errors"
 	"unsafe"
 
-	"github.com/imkira/go-libav/avutil"
+	"github.com/wang1219/go-libav/avutil"
 )
 
 var (

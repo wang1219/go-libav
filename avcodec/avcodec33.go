@@ -11,7 +11,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/imkira/go-libav/avutil"
+	"github.com/wang1219/go-libav/avutil"
 )
 
 type CodecParameters struct {
@@ -77,6 +77,16 @@ func (ctx *Context) DecodeAudio(pkt *Packet, frame *avutil.Frame) (bool, int, er
 		code = 0
 	}
 	return code == 0, int(code), err
+}
+
+func (ctx *Context) ReceiveFrame(frame *avutil.Frame) int {
+	cFrame := (*C.AVFrame)(unsafe.Pointer(frame.CAVFrame))
+	return int(C.avcodec_receive_frame(ctx.CAVCodecContext, cFrame))
+}
+
+func (ctx *Context) SendPacket(pkt *Packet) int {
+	cPkt := (*C.AVPacket)(unsafe.Pointer(pkt.CAVPacket))
+	return int(C.avcodec_send_packet(ctx.CAVCodecContext, cPkt))
 }
 
 func (ctx *Context) EncodeVideo(pkt *Packet, frame *avutil.Frame) (bool, error) {

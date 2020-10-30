@@ -11,7 +11,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/imkira/go-libav/avutil"
+	"github.com/wang1219/go-libav/avutil"
 )
 
 func (ctx *Context) CopyTo(dst *Context) error {

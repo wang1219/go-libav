@@ -13,8 +13,8 @@ import (
 	"testing"
 	"unsafe"
 
-	"github.com/imkira/go-libav/avcodec"
-	"github.com/imkira/go-libav/avutil"
+	"github.com/wang1219/go-libav/avcodec"
+	"github.com/wang1219/go-libav/avutil"
 	"github.com/shirou/gopsutil/process"
 )
 
