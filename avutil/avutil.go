@@ -1433,22 +1433,22 @@ func (af *AudioFifo) Drain(nbSamples int) int {
 	return int(C.av_audio_fifo_drain(af.CAVAudioFifo, (C.int)(nbSamples)))
 }
 
-func (af *AudioFifo) Read(data **int64, nbSamples int) int {
-	return int(C.av_audio_fifo_read(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+func (af *AudioFifo) Read(data unsafe.Pointer, nbSamples int) int {
+	return int(C.av_audio_fifo_read(af.CAVAudioFifo, (**C.void)(data), (C.int)(nbSamples)))
 }
 
-func (af *AudioFifo) Write(data **int64, nbSamples int) int {
-	return int(C.av_audio_fifo_write(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+func (af *AudioFifo) Write(data unsafe.Pointer, nbSamples int) int {
+	return int(C.av_audio_fifo_write(af.CAVAudioFifo, (**C.void)(data), (C.int)(nbSamples)))
 }
 
-func (af *AudioFifo) Realloc(data **int64, nbSamples int) int {
-	return int(C.av_audio_fifo_realloc(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+func (af *AudioFifo) Realloc(nbSamples int) int {
+	return int(C.av_audio_fifo_realloc(af.CAVAudioFifo, (C.int)(nbSamples)))
 }
 
-func (af *AudioFifo) Peek(data **int64, nbSamples int) int {
-	return int(C.av_fifo_generic_peek(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+func (af *AudioFifo) Peek(data unsafe.Pointer, nbSamples int) int {
+	return int(C.av_fifo_generic_peek(af.CAVAudioFifo, (**C.void)(data), (C.int)(nbSamples)))
 }
 
-func (af *AudioFifo) PeekAt(data **int64, nbSamples, offset int) int {
-	return int(C.av_fifo_generic_peek_at(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples), (C.int)(offset)))
+func (af *AudioFifo) PeekAt(data unsafe.Pointer, nbSamples, offset int) int {
+	return int(C.av_fifo_generic_peek_at(af.CAVAudioFifo, (**C.void)(data), (C.int)(nbSamples), (C.int)(offset)))
 }
