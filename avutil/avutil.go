@@ -11,6 +11,7 @@ package avutil
 //#include <libavutil/parseutils.h>
 //#include <libavutil/common.h>
 //#include <libavutil/eval.h>
+//#include <libavutil/audio_fifo.h>
 //
 //#ifdef AV_LOG_TRACE
 //#define GO_AV_LOG_TRACE AV_LOG_TRACE
@@ -1394,4 +1395,60 @@ func boolToCInt(b bool) C.int {
 		return 1
 	}
 	return 0
+}
+
+struct AudioFifo struct {
+	CAVAudioFifo *C.AVAudioFifo
+}
+
+func NewAudioFifo(format SampleFormat, channels, nbSamples int) (*AudioFifo, error) {
+	cFifo := C.av_audio_fifo_alloc((C.enum_AVSampleFormat)(format), (C.int)(channels), (C.int)(nbSamples))
+	if cFifo == nil {
+		return nil, ErrAllocationError
+	}
+	return NewAudioFifoFromC(unsafe.Pointer(cFifo)), nil
+}
+
+func NewAudioFifoFromC(cFifo unsafe.Pointer) *AudioFifo {
+	return &AudioFifo{CAVAudioFifo: (*C.CAVAudioFifo)(cFifo)}
+}
+
+func (af *AudioFifo) Free() {
+	C.av_audio_fifo_free(af.CAVAudioFifo)
+}
+
+func (af *AudioFifo) Size() int {
+	return int(C.av_audio_fifo_size(af.CAVAudioFifo))
+}
+
+func (af *AudioFifo) Space() int {
+	return int(C.av_audio_fifo_space(af.CAVAudioFifo))
+}
+
+func (af *AudioFifo) Reset() {
+	C.av_audio_fifo_reset(af.CAVAudioFifo)
+}
+
+func (af *AudioFifo) Drain(nbSamples int) int {
+	return int(C.av_audio_fifo_drain(af.CAVAudioFifo, (C.int)(nbSamples)))
+}
+
+func (af *AudioFifo) Read(data **int64, nbSamples int) int {
+	return int(C.av_audio_fifo_read(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+}
+
+func (af *AudioFifo) Write(data **int64, nbSamples int) int {
+	return int(C.av_audio_fifo_write(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+}
+
+func (af *AudioFifo) Realloc(data **int64, nbSamples int) int {
+	return int(C.av_audio_fifo_realloc(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+}
+
+func (af *AudioFifo) Peek(data **int64, nbSamples int) int {
+	return int(C.av_fifo_generic_peek(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples)))
+}
+
+func (af *AudioFifo) PeekAt(data **int64, nbSamples, offset int) int {
+	return int(C.av_fifo_generic_peek_at(af.CAVAudioFifo, (C.void**)(data), (C.int)(nbSamples), (C.int)(offset)))
 }
