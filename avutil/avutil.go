@@ -1397,7 +1397,7 @@ func boolToCInt(b bool) C.int {
 	return 0
 }
 
-struct AudioFifo struct {
+type AudioFifo struct {
 	CAVAudioFifo *C.AVAudioFifo
 }
 
