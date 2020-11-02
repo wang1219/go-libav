@@ -1410,7 +1410,7 @@ func NewAudioFifo(format SampleFormat, channels, nbSamples int) (*AudioFifo, err
 }
 
 func NewAudioFifoFromC(cFifo unsafe.Pointer) *AudioFifo {
-	return &AudioFifo{CAVAudioFifo: (*C.CAVAudioFifo)(cFifo)}
+	return &AudioFifo{CAVAudioFifo: (*C.AVAudioFifo)(cFifo)}
 }
 
 func (af *AudioFifo) Free() {
