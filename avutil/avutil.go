@@ -1433,7 +1433,7 @@ func (af *AudioFifo) Drain(nbSamples int) int {
 	return int(C.av_audio_fifo_drain(af.CAVAudioFifo, (C.int)(nbSamples)))
 }
 
-func (af *AudioFifo) Read(data **uint8, nbSamples int) int {
+func (af *AudioFifo) Read(data unsafe.Pointer, nbSamples int) int {
 	cData := make([]uintptr, C.int(1))
 	cData[0] = uintptr(data)
 	return int(C.av_audio_fifo_read(af.CAVAudioFifo, (*unsafe.Pointer)(unsafe.Pointer(&cData[0])), (C.int)(nbSamples)))
