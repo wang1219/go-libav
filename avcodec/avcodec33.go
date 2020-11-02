@@ -90,7 +90,6 @@ func (ctx *Context) SendPacket(pkt *Packet) int {
 }
 
 func (ctx *Context) EncodeVideo(pkt *Packet, frame *avutil.Frame) (bool, error) {
-	var cGotFrame C.int
 	var cFrame *C.AVFrame
 	if frame != nil {
 		cFrame = (*C.AVFrame)(unsafe.Pointer(frame.CAVFrame))
@@ -101,12 +100,12 @@ func (ctx *Context) EncodeVideo(pkt *Packet, frame *avutil.Frame) (bool, error) 
 	var err error
 	if code < 0 {
 		err = avutil.NewErrorFromCode(avutil.ErrorCode(code))
+		code = 0
 	}
-	return (cGotFrame != (C.int)(0)), err
+	return code == 0, err
 }
 
 func (ctx *Context) EncodeAudio(pkt *Packet, frame *avutil.Frame) (bool, error) {
-	var cGotFrame C.int
 	var cFrame *C.AVFrame
 	if frame != nil {
 		cFrame = (*C.AVFrame)(unsafe.Pointer(frame.CAVFrame))
@@ -117,6 +116,20 @@ func (ctx *Context) EncodeAudio(pkt *Packet, frame *avutil.Frame) (bool, error) 
 	var err error
 	if code < 0 {
 		err = avutil.NewErrorFromCode(avutil.ErrorCode(code))
+		code = 0
 	}
-	return (cGotFrame != (C.int)(0)), err
+	return code == 0, err
+}
+
+func (ctx *Context) SendFrame(frame *avutil.Frame) int {
+	var cFrame *C.AVFrame
+	if frame != nil {
+		cFrame = (*C.AVFrame)(unsafe.Pointer(frame.CAVFrame))
+	}
+	return int(C.avcodec_send_frame(ctx.CAVCodecContext, cFrame))
+}
+
+func (ctx *Context) ReceivePacket(pkt *Packet) int {
+	cPkt := (*C.AVPacket)(unsafe.Pointer(pkt.CAVPacket))
+	return int(C.avcodec_receive_packet(ctx.CAVCodecContext, cPkt))
 }
