@@ -21,12 +21,13 @@ The reason I decided to build go-libav was because I wanted to have:
 - A more Go-like approach to error handling.
 - Easier garbage collection.
 
+# Required
+
+FFmpeg versin >= 3.3.*
+
 # Installation
 
 First, install ffmpeg 3.x libraries on your system.
-
-If you need ffmpeg2.x support, use
-[ffmpeg2](https://github.com/wang1219/go-libav/tree/ffmpeg2) branch (deprecated).
 
 Then, open the terminal and install the following packages:
 
@@ -50,17 +51,6 @@ For advanced usage, make sure to check the following documentation:
 
 Please check [here for examples](https://github.com/wang1219/go-libav/tree/master/examples).
 
-# FFmpeg versions
-
-This library supports multiple versions of FFmpeg 3.x, to build, use
-
-```
-go build -tags ffmpeg33
-go test -tags ffmpeg33
-go run -tags ffmpeg33 examples/mediainfo/mediainfo.go
-```
-
-Use `ffmpeg30` for FFmpeg 3.0 API, `ffmpeg33` for FFmpeg 3.3 API.
 
 # Contribute
 

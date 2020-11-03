@@ -67,8 +67,9 @@ import (
 )
 
 var (
-	ErrAllocationError     = errors.New("allocation error")
-	ErrInvalidArgumentSize = errors.New("invalid argument size")
+	ErrAllocationError      = errors.New("allocation error")
+	ErrInvalidArgumentSize  = errors.New("invalid argument size")
+	ErrSamplesRequiredError = errors.New("samples is required")
 )
 
 type LogLevel int
@@ -827,6 +828,36 @@ func (f *Frame) SetHeight(height int) {
 	f.CAVFrame.height = (C.int)(height)
 }
 
+func (f *Frame) SampleFormat() SampleFormat {
+	return (SampleFormat)(f.CAVFrame.format)
+}
+
+func (f *Frame) SetSampleFormat(format SampleFormat) {
+	f.CAVFrame.format = (C.int)(format)
+}
+func (f *Frame) SampleRate() int {
+	return int(f.CAVFrame.sample_rate)
+}
+
+func (f *Frame) SetSampleRate(rate int) {
+	f.CAVFrame.sample_rate = (C.int)(rate)
+}
+func (f *Frame) ChannelLayout() ChannelLayout {
+	return (ChannelLayout)(f.CAVFrame.channel_layout)
+}
+
+func (f *Frame) SetChannelLayout(layout ChannelLayout) {
+	f.CAVFrame.channel_layout = (C.uint64_t)(layout)
+}
+
+func (f *Frame) Channels() int {
+	return int(f.CAVFrame.channels)
+}
+
+func (f *Frame) SetChannels(channels int) {
+	f.CAVFrame.channels = (C.int)(channels)
+}
+
 func (f *Frame) NumberOfSamples() int {
 	return int(f.CAVFrame.nb_samples)
 }
@@ -1398,15 +1429,24 @@ func boolToCInt(b bool) C.int {
 }
 
 type AudioFifo struct {
-	CAVAudioFifo *C.AVAudioFifo
+	CAVAudioFifo  *C.AVAudioFifo
+	SampleFmt     SampleFormat
+	ChannelLayout ChannelLayout
 }
 
-func NewAudioFifo(format SampleFormat, channels, nbSamples int) (*AudioFifo, error) {
-	cFifo := C.av_audio_fifo_alloc((C.enum_AVSampleFormat)(format), (C.int)(channels), (C.int)(nbSamples))
+func NewAudioFifo(format SampleFormat, layout ChannelLayout, nbSamples int) (*AudioFifo, error) {
+	if nbSamples == 0 {
+		return nil, ErrSamplesRequiredError
+	}
+
+	cFifo := C.av_audio_fifo_alloc((C.enum_AVSampleFormat)(format), C.int(layout.NumberOfChannels()), (C.int)(nbSamples))
 	if cFifo == nil {
 		return nil, ErrAllocationError
 	}
-	return NewAudioFifoFromC(unsafe.Pointer(cFifo)), nil
+	f := NewAudioFifoFromC(unsafe.Pointer(cFifo))
+	f.SampleFmt = format
+	f.ChannelLayout = layout
+	return f, nil
 }
 
 func NewAudioFifoFromC(cFifo unsafe.Pointer) *AudioFifo {
@@ -1414,7 +1454,9 @@ func NewAudioFifoFromC(cFifo unsafe.Pointer) *AudioFifo {
 }
 
 func (af *AudioFifo) Free() {
-	C.av_audio_fifo_free(af.CAVAudioFifo)
+	if af.CAVAudioFifo != nil {
+		C.av_audio_fifo_free(af.CAVAudioFifo)
+	}
 }
 
 func (af *AudioFifo) Size() int {
@@ -1429,34 +1471,42 @@ func (af *AudioFifo) Reset() {
 	C.av_audio_fifo_reset(af.CAVAudioFifo)
 }
 
-func (af *AudioFifo) Drain(nbSamples int) int {
-	return int(C.av_audio_fifo_drain(af.CAVAudioFifo, (C.int)(nbSamples)))
+func (af *AudioFifo) Drain(nbSamples int) error {
+	cCode := C.av_audio_fifo_drain(af.CAVAudioFifo, (C.int)(nbSamples))
+	if cCode < 0 {
+		return NewErrorFromCode(ErrorCode(cCode))
+	}
+	return nil
 }
 
-func (af *AudioFifo) Read(data unsafe.Pointer, nbSamples int) int {
-	cData := make([]uintptr, C.int(1))
-	cData[0] = uintptr(data)
-	return int(C.av_audio_fifo_read(af.CAVAudioFifo, (*unsafe.Pointer)(unsafe.Pointer(&cData[0])), (C.int)(nbSamples)))
+func (af *AudioFifo) Realloc(nbSamples int) error {
+	cCode := C.av_audio_fifo_realloc(af.CAVAudioFifo, (C.int)(nbSamples))
+	if cCode < 0 {
+		return NewErrorFromCode(ErrorCode(cCode))
+	}
+	return nil
 }
 
-func (af *AudioFifo) Write(data unsafe.Pointer, nbSamples int) int {
-	cData := make([]uintptr, C.int(1))
-	cData[0] = uintptr(data)
-	return int(C.av_audio_fifo_write(af.CAVAudioFifo, (*unsafe.Pointer)(unsafe.Pointer(&cData[0])), (C.int)(nbSamples)))
+func (af *AudioFifo) WriteFrame(frame *Frame) (int, error) {
+	af.Realloc(af.Size() + frame.NumberOfSamples())
+	cCode := C.av_audio_fifo_write(af.CAVAudioFifo, (*unsafe.Pointer)(unsafe.Pointer(&frame.CAVFrame.data[0])), (C.int)(frame.NumberOfSamples()))
+	if cCode < 0 {
+		return int(cCode), NewErrorFromCode(ErrorCode(cCode))
+	}
+	return int(cCode), nil
 }
 
-func (af *AudioFifo) Realloc(nbSamples int) int {
-	return int(C.av_audio_fifo_realloc(af.CAVAudioFifo, (C.int)(nbSamples)))
-}
-
-func (af *AudioFifo) Peek(data unsafe.Pointer, nbSamples int) int {
-	cData := make([]uintptr, C.int(1))
-	cData[0] = uintptr(data)
-	return int(C.av_audio_fifo_peek(af.CAVAudioFifo, (*unsafe.Pointer)(unsafe.Pointer(&cData[0])), (C.int)(nbSamples)))
-}
-
-func (af *AudioFifo) PeekAt(data unsafe.Pointer, nbSamples, offset int) int {
-	cData := make([]uintptr, C.int(1))
-	cData[0] = uintptr(data)
-	return int(C.av_audio_fifo_peek_at(af.CAVAudioFifo, (*unsafe.Pointer)(unsafe.Pointer(&cData[0])), (C.int)(nbSamples), (C.int)(offset)))
+func (af *AudioFifo) ReadFrame(frame *Frame, nbSamples int) (int, error) {
+	frame.SetSampleFormat(af.SampleFmt)
+	frame.SetChannelLayout(af.ChannelLayout)
+	frame.SetNumberOfSamples(nbSamples)
+	frame.GetBufferWithAlignment(0)
+	cCode := C.av_audio_fifo_read(af.CAVAudioFifo, (*unsafe.Pointer)(unsafe.Pointer(&frame.CAVFrame.data[0])), (C.int)(nbSamples))
+	if cCode < 0 {
+		return int(cCode), NewErrorFromCode(ErrorCode(cCode))
+	}
+	if int(cCode) < nbSamples {
+		frame.SetNumberOfSamples(int(cCode))
+	}
+	return int(cCode), nil
 }

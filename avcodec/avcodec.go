@@ -140,9 +140,107 @@ var (
 type CodecID C.enum_AVCodecID
 
 const (
-	CodecIDNone  CodecID = C.AV_CODEC_ID_NONE
-	CodecIDMJpeg CodecID = C.AV_CODEC_ID_MJPEG
-	CodecIDLJpeg CodecID = C.AV_CODEC_ID_LJPEG
+	CodecIDNone          CodecID = C.AV_CODEC_ID_NONE
+	CodecIDMJpeg         CodecID = C.AV_CODEC_ID_MJPEG
+	CodecIDLJpeg         CodecID = C.AV_CODEC_ID_LJPEG
+	// Audio codecID
+	CodecIDWmav2         CodecID = C.AV_CODEC_ID_WMAV2
+	CodecIDWmav1         CodecID = C.AV_CODEC_ID_WMAV1
+	CodecIDAacLatm       CodecID = C.AV_CODEC_ID_AAC_LATM
+	CodecIDSonicLs       CodecID = C.AV_CODEC_ID_SONIC_LS
+	CodecIDBinkaudioDct  CodecID = C.AV_CODEC_ID_BINKAUDIO_DCT
+	CodecIDAtrac3Pal     CodecID = C.AV_CODEC_ID_ATRAC3PAL
+	CodecID4Gv           CodecID = C.AV_CODEC_ID_4GV
+	CodecIDSbc           CodecID = C.AV_CODEC_ID_SBC
+	CodecIDEvrc          CodecID = C.AV_CODEC_ID_EVRC
+	CodecIDFastaudio     CodecID = C.AV_CODEC_ID_FASTAUDIO
+	CodecIDAac           CodecID = C.AV_CODEC_ID_AAC
+	CodecIDIac           CodecID = C.AV_CODEC_ID_IAC
+	CodecID8SvxFib       CodecID = C.AV_CODEC_ID_8SVX_FIB
+	CodecIDWmapro        CodecID = C.AV_CODEC_ID_WMAPRO
+	CodecIDRa288         CodecID = C.AV_CODEC_ID_RA_288
+	CodecIDWmavoice      CodecID = C.AV_CODEC_ID_WMAVOICE
+	CodecIDMusepack8     CodecID = C.AV_CODEC_ID_MUSEPACK8
+	CodecIDMp2           CodecID = C.AV_CODEC_ID_MP2
+	CodecIDMp3           CodecID = C.AV_CODEC_ID_MP3
+	CodecIDCodec2        CodecID = C.AV_CODEC_ID_CODEC2
+	CodecIDMp1           CodecID = C.AV_CODEC_ID_MP1
+	CodecIDWavpack       CodecID = C.AV_CODEC_ID_WAVPACK
+	CodecIDAptx          CodecID = C.AV_CODEC_ID_APTX
+	CodecIDTak           CodecID = C.AV_CODEC_ID_TAK
+	CodecIDSiren         CodecID = C.AV_CODEC_ID_SIREN
+	CodecIDSmv           CodecID = C.AV_CODEC_ID_SMV
+	CodecIDDst           CodecID = C.AV_CODEC_ID_DST
+	CodecIDShorten       CodecID = C.AV_CODEC_ID_SHORTEN
+	CodecIDDsdLsbf       CodecID = C.AV_CODEC_ID_DSD_LSBF
+	CodecIDHca           CodecID = C.AV_CODEC_ID_HCA
+	CodecIDXma2          CodecID = C.AV_CODEC_ID_XMA2
+	CodecIDXma1          CodecID = C.AV_CODEC_ID_XMA1
+	CodecIDTruehd        CodecID = C.AV_CODEC_ID_TRUEHD
+	CodecIDAlac          CodecID = C.AV_CODEC_ID_ALAC
+	CodecIDVmdaudio      CodecID = C.AV_CODEC_ID_VMDAUDIO
+	CodecIDSmackaudio    CodecID = C.AV_CODEC_ID_SMACKAUDIO
+	CodecIDPafAudio      CodecID = C.AV_CODEC_ID_PAF_AUDIO
+	CodecIDAtrac3Al      CodecID = C.AV_CODEC_ID_ATRAC3AL
+	CodecIDFlac          CodecID = C.AV_CODEC_ID_FLAC
+	CodecIDCook          CodecID = C.AV_CODEC_ID_COOK
+	CodecIDDolbyE        CodecID = C.AV_CODEC_ID_DOLBY_E
+	CodecIDTwinvq        CodecID = C.AV_CODEC_ID_TWINVQ
+	CodecIDFfwavesynth   CodecID = C.AV_CODEC_ID_FFWAVESYNTH
+	CodecIDRa144         CodecID = C.AV_CODEC_ID_RA_144
+	CodecID8SvxExp       CodecID = C.AV_CODEC_ID_8SVX_EXP
+	CodecIDGsm           CodecID = C.AV_CODEC_ID_GSM
+	CodecIDDssSp         CodecID = C.AV_CODEC_ID_DSS_SP
+	CodecIDDsdMsbf       CodecID = C.AV_CODEC_ID_DSD_MSBF
+	CodecIDNellymoser    CodecID = C.AV_CODEC_ID_NELLYMOSER
+	CodecIDBinkaudioRdft CodecID = C.AV_CODEC_ID_BINKAUDIO_RDFT
+	CodecIDTruespeech    CodecID = C.AV_CODEC_ID_TRUESPEECH
+	CodecIDSipr          CodecID = C.AV_CODEC_ID_SIPR
+	CodecIDMusepack7     CodecID = C.AV_CODEC_ID_MUSEPACK7
+	CodecIDTta           CodecID = C.AV_CODEC_ID_TTA
+	CodecIDApe           CodecID = C.AV_CODEC_ID_APE
+	CodecIDImc           CodecID = C.AV_CODEC_ID_IMC
+	CodecIDDsdMsbfPlanar CodecID = C.AV_CODEC_ID_DSD_MSBF_PLANAR
+	CodecIDCelt          CodecID = C.AV_CODEC_ID_CELT
+	CodecIDWmalossless   CodecID = C.AV_CODEC_ID_WMALOSSLESS
+	CodecIDMace6         CodecID = C.AV_CODEC_ID_MACE6
+	CodecIDMace3         CodecID = C.AV_CODEC_ID_MACE3
+	CodecIDRalf          CodecID = C.AV_CODEC_ID_RALF
+	CodecIDQdmc          CodecID = C.AV_CODEC_ID_QDMC
+	CodecIDSonic         CodecID = C.AV_CODEC_ID_SONIC
+	CodecIDHcom          CodecID = C.AV_CODEC_ID_HCOM
+	CodecIDMp4Als        CodecID = C.AV_CODEC_ID_MP4ALS
+	CodecIDG729          CodecID = C.AV_CODEC_ID_G729
+	CodecIDEac3          CodecID = C.AV_CODEC_ID_EAC3
+	CodecIDAtrac3P       CodecID = C.AV_CODEC_ID_ATRAC3P
+	CodecIDQdm2          CodecID = C.AV_CODEC_ID_QDM2
+	CodecIDMlp           CodecID = C.AV_CODEC_ID_MLP
+	CodecIDInterplayAcm  CodecID = C.AV_CODEC_ID_INTERPLAY_ACM
+	CodecIDDts           CodecID = C.AV_CODEC_ID_DTS
+	CodecIDComfortNoise  CodecID = C.AV_CODEC_ID_COMFORT_NOISE
+	CodecIDOpus          CodecID = C.AV_CODEC_ID_OPUS
+	CodecIDIlbc          CodecID = C.AV_CODEC_ID_ILBC
+	CodecIDMpegh3DAudio  CodecID = C.AV_CODEC_ID_MPEGH_3D_AUDIO
+	CodecIDMp3On4        CodecID = C.AV_CODEC_ID_MP3ON4
+	CodecIDAc3           CodecID = C.AV_CODEC_ID_AC3
+	CodecIDAcelpKelvin   CodecID = C.AV_CODEC_ID_ACELP_KELVIN
+	CodecIDG7231         CodecID = C.AV_CODEC_ID_G723_1
+	CodecIDDsicinaudio   CodecID = C.AV_CODEC_ID_DSICINAUDIO
+	CodecIDGsmMs         CodecID = C.AV_CODEC_ID_GSM_MS
+	CodecIDWestwoodSnd1  CodecID = C.AV_CODEC_ID_WESTWOOD_SND1
+	CodecIDDvaudio       CodecID = C.AV_CODEC_ID_DVAUDIO
+	CodecIDMetasound     CodecID = C.AV_CODEC_ID_METASOUND
+	CodecIDBmvAudio      CodecID = C.AV_CODEC_ID_BMV_AUDIO
+	CodecIDAtrac9        CodecID = C.AV_CODEC_ID_ATRAC9
+	CodecIDMp3Adu        CodecID = C.AV_CODEC_ID_MP3ADU
+	CodecIDOn2Avc        CodecID = C.AV_CODEC_ID_ON2AVC
+	CodecIDAtrac3        CodecID = C.AV_CODEC_ID_ATRAC3
+	CodecIDAtrac1        CodecID = C.AV_CODEC_ID_ATRAC1
+	CodecIDSpeex         CodecID = C.AV_CODEC_ID_SPEEX
+	CodecIDQcelp         CodecID = C.AV_CODEC_ID_QCELP
+	CodecIDDsdLsbfPlanar CodecID = C.AV_CODEC_ID_DSD_LSBF_PLANAR
+	CodecIDVorbis        CodecID = C.AV_CODEC_ID_VORBIS
+	CodecIDAptxHd        CodecID = C.AV_CODEC_ID_APTX_HD
 )
 
 type Flags int
@@ -313,7 +411,6 @@ func init() {
 func Version() (int, int, int) {
 	return int(C.GO_AVCODEC_VERSION_MAJOR), int(C.GO_AVCODEC_VERSION_MINOR), int(C.GO_AVCODEC_VERSION_MICRO)
 }
-
 
 func RegisterAll() {
 	C.avcodec_register_all()
