@@ -151,9 +151,7 @@ const (
 	CodecIDBinkaudioDct  CodecID = C.AV_CODEC_ID_BINKAUDIO_DCT
 	CodecIDAtrac3Pal     CodecID = C.AV_CODEC_ID_ATRAC3PAL
 	CodecID4Gv           CodecID = C.AV_CODEC_ID_4GV
-	CodecIDSbc           CodecID = C.AV_CODEC_ID_SBC
 	CodecIDEvrc          CodecID = C.AV_CODEC_ID_EVRC
-	CodecIDFastaudio     CodecID = C.AV_CODEC_ID_FASTAUDIO
 	CodecIDAac           CodecID = C.AV_CODEC_ID_AAC
 	CodecIDIac           CodecID = C.AV_CODEC_ID_IAC
 	CodecID8SvxFib       CodecID = C.AV_CODEC_ID_8SVX_FIB
@@ -163,17 +161,13 @@ const (
 	CodecIDMusepack8     CodecID = C.AV_CODEC_ID_MUSEPACK8
 	CodecIDMp2           CodecID = C.AV_CODEC_ID_MP2
 	CodecIDMp3           CodecID = C.AV_CODEC_ID_MP3
-	CodecIDCodec2        CodecID = C.AV_CODEC_ID_CODEC2
 	CodecIDMp1           CodecID = C.AV_CODEC_ID_MP1
 	CodecIDWavpack       CodecID = C.AV_CODEC_ID_WAVPACK
-	CodecIDAptx          CodecID = C.AV_CODEC_ID_APTX
 	CodecIDTak           CodecID = C.AV_CODEC_ID_TAK
-	CodecIDSiren         CodecID = C.AV_CODEC_ID_SIREN
 	CodecIDSmv           CodecID = C.AV_CODEC_ID_SMV
 	CodecIDDst           CodecID = C.AV_CODEC_ID_DST
 	CodecIDShorten       CodecID = C.AV_CODEC_ID_SHORTEN
 	CodecIDDsdLsbf       CodecID = C.AV_CODEC_ID_DSD_LSBF
-	CodecIDHca           CodecID = C.AV_CODEC_ID_HCA
 	CodecIDXma2          CodecID = C.AV_CODEC_ID_XMA2
 	CodecIDXma1          CodecID = C.AV_CODEC_ID_XMA1
 	CodecIDTruehd        CodecID = C.AV_CODEC_ID_TRUEHD
@@ -184,7 +178,6 @@ const (
 	CodecIDAtrac3Al      CodecID = C.AV_CODEC_ID_ATRAC3AL
 	CodecIDFlac          CodecID = C.AV_CODEC_ID_FLAC
 	CodecIDCook          CodecID = C.AV_CODEC_ID_COOK
-	CodecIDDolbyE        CodecID = C.AV_CODEC_ID_DOLBY_E
 	CodecIDTwinvq        CodecID = C.AV_CODEC_ID_TWINVQ
 	CodecIDFfwavesynth   CodecID = C.AV_CODEC_ID_FFWAVESYNTH
 	CodecIDRa144         CodecID = C.AV_CODEC_ID_RA_144
@@ -208,7 +201,6 @@ const (
 	CodecIDRalf          CodecID = C.AV_CODEC_ID_RALF
 	CodecIDQdmc          CodecID = C.AV_CODEC_ID_QDMC
 	CodecIDSonic         CodecID = C.AV_CODEC_ID_SONIC
-	CodecIDHcom          CodecID = C.AV_CODEC_ID_HCOM
 	CodecIDMp4Als        CodecID = C.AV_CODEC_ID_MP4ALS
 	CodecIDG729          CodecID = C.AV_CODEC_ID_G729
 	CodecIDEac3          CodecID = C.AV_CODEC_ID_EAC3
@@ -220,10 +212,8 @@ const (
 	CodecIDComfortNoise  CodecID = C.AV_CODEC_ID_COMFORT_NOISE
 	CodecIDOpus          CodecID = C.AV_CODEC_ID_OPUS
 	CodecIDIlbc          CodecID = C.AV_CODEC_ID_ILBC
-	CodecIDMpegh3DAudio  CodecID = C.AV_CODEC_ID_MPEGH_3D_AUDIO
 	CodecIDMp3On4        CodecID = C.AV_CODEC_ID_MP3ON4
 	CodecIDAc3           CodecID = C.AV_CODEC_ID_AC3
-	CodecIDAcelpKelvin   CodecID = C.AV_CODEC_ID_ACELP_KELVIN
 	CodecIDG7231         CodecID = C.AV_CODEC_ID_G723_1
 	CodecIDDsicinaudio   CodecID = C.AV_CODEC_ID_DSICINAUDIO
 	CodecIDGsmMs         CodecID = C.AV_CODEC_ID_GSM_MS
@@ -231,7 +221,6 @@ const (
 	CodecIDDvaudio       CodecID = C.AV_CODEC_ID_DVAUDIO
 	CodecIDMetasound     CodecID = C.AV_CODEC_ID_METASOUND
 	CodecIDBmvAudio      CodecID = C.AV_CODEC_ID_BMV_AUDIO
-	CodecIDAtrac9        CodecID = C.AV_CODEC_ID_ATRAC9
 	CodecIDMp3Adu        CodecID = C.AV_CODEC_ID_MP3ADU
 	CodecIDOn2Avc        CodecID = C.AV_CODEC_ID_ON2AVC
 	CodecIDAtrac3        CodecID = C.AV_CODEC_ID_ATRAC3
@@ -240,7 +229,6 @@ const (
 	CodecIDQcelp         CodecID = C.AV_CODEC_ID_QCELP
 	CodecIDDsdLsbfPlanar CodecID = C.AV_CODEC_ID_DSD_LSBF_PLANAR
 	CodecIDVorbis        CodecID = C.AV_CODEC_ID_VORBIS
-	CodecIDAptxHd        CodecID = C.AV_CODEC_ID_APTX_HD
 )
 
 type Flags int
